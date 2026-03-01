@@ -55,6 +55,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const {username} = req.user
   // get thet book
   const bookInfo = books[isbn]
+   
   if(!bookInfo){
     return res.status(404).json({message: "book not found"});
   }
@@ -62,10 +63,12 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const alreadtReviewed = bookInfo.reviews[username]
   if(alreadtReviewed){
     bookInfo.reviews[username].review=review
-    return res.send(bookInfo);
+  
+       return res.status(200).json({message: "review updated with success!" ,reviews:bookInfo.reviews });
   }else{
     bookInfo.reviews[username]={review:review}
-    return res.send(bookInfo);
+    
+      return res.status(201).json({message: "review added with success!",reviews:bookInfo.reviews });
   }
   
 });
